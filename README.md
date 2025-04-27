@@ -90,7 +90,7 @@ cd /bitnami/wordpress/wp-content/themes/sage-theme && npm run build
 ### **Access the Environment**
 
 - WordPress: http://sports-web.local:8080
-- Live score dashboard: http://sport-web.local:8080/live-score-dashboard
+- Live score dashboard: http://sports-web.local:8080/live-score-dashboard
 - phpMyAdmin: http://sports-web.local:8081
 
 * * *
