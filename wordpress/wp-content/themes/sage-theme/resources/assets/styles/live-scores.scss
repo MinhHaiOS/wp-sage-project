@@ -1,0 +1,67 @@
+.score-filters {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  margin-bottom: 1rem;
+
+  li { margin-right: .5rem; }
+
+  a {
+    display: inline-block;
+    padding: .5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: .25rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: background .2s, color .2s;
+  }
+
+  a.active {
+    background: #d32f2f;
+    color: #fff;
+    border-color: #d32f2f;
+  }
+}
+
+.live-scores {
+  .league-group {
+    margin-bottom: 2rem;
+
+    h2 {
+      font-size: 1.25rem;
+      margin-bottom: .5rem;
+      border-bottom: 2px solid #eee;
+      padding-bottom: .25rem;
+    }
+
+    .matches-table {
+      width: 100%;
+      border-collapse: collapse;
+
+      .match-row {
+        &:nth-child(odd) { background: #fafafa; }
+        td {
+          padding: .5rem;
+          vertical-align: middle;
+        }
+        .time { width: 80px; font-weight: 600; }
+        .team {
+          display: flex;
+          align-items: center;
+          img { width: 24px; height: 24px; margin: 0 .5rem; }
+        }
+        .score {
+          width: 60px;
+          text-align: center;
+          font-size: 1rem;
+          font-weight: bold;
+        }
+        .ht-score {
+          color: #666;
+          font-size: .85rem;
+        }
+      }
+    }
+  }
+}

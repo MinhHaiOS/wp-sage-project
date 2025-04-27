@@ -1,0 +1,82 @@
+<?php
+define( 'WP_CACHE', false ); // Added by WP Rocket
+
+/** Enable W3 Total Cache */
+// define('WP_CACHE', true); // Added by W3 Total Cache
+
+//define( 'WP_REDIS_HOST', '127.0.0.1' );
+//define( 'WP_REDIS_PORT', 6379 );
+//define('WP_REDIS_PASSWORD', );
+
+define('WP_MEMORY_LIMIT', '512M');
+define( 'DB_NAME', 'sports' );
+/** Database username */
+define( 'DB_USER', 'sport_user' );
+/** Database password */
+define( 'DB_PASSWORD', 'p@ssword!123' );
+/** Database hostname */
+define( 'DB_HOST', 'mariadb' );
+/** Database charset to use in creating database tables. */
+define( 'DB_CHARSET', 'utf8mb4' );
+define( 'DB_COLLATE', '' );
+
+define( 'AUTH_KEY',         '<tc1McpYC(z{NI=Fea%cirb4D.H9x2j`IElQs:u|,gc|i#BXk%|mgRU_ZY8ne)e7' );
+define( 'SECURE_AUTH_KEY',  'ZGeH[;qm+Sh]NM*6cFb]GC_@]G<W|.2&#!o`|x2Z|bbEOo9id-+a;>!P:}~p5nL:' );
+define( 'LOGGED_IN_KEY',    ':)ttOgY]Qmfoi7^G$eIoX6 ;sl_|.ej@$/?iLo5%x)_i7h)3RJFwKUEGxaJ*,8:[' );
+define( 'NONCE_KEY',        'ZtG:zq5OKgOGmvLrfREfzRF#foCpyyi;]sR4!XXAjYdE@wHO(T^vIHX:$svIh=zj' );
+define( 'AUTH_SALT',        'F]l@EXauXLlS6Z-Ja<w2.Jh@<@TkgV-S28kF;3$7`?|yltW`8By`%ia<rl*M,2d^' );
+define( 'SECURE_AUTH_SALT', 'e^7VpWm38mV,P`Ry_^]7T(TDp1T&G<?sZcXUys=+e:=+g]7QXFR,rhfK>Y1pLhin' );
+define( 'LOGGED_IN_SALT',   'B=_#}51v~Mf=&>oGPR}6n:Tqn%HKe3z6Y!$n@LTCy{di?>$lI],%6(bTS*RIpC=0' );
+define( 'NONCE_SALT',       'kT%$o5!(Mcy7g!ic@X]P{~JU}[JLy7_A&K{SG5T/s[kk8BjJIaDh]gT?U6sd7BLR' );
+
+$table_prefix = 'wp_';
+
+define('WP_DEBUG', true);
+define('WP_DEBUG_LOG', true);
+define('WP_DEBUG_DISPLAY', true);
+// define('COOKIE_DOMAIN', '');
+// define('COOKIE_SECURE', false);
+// define('FORCE_SSL_ADMIN', false);
+
+define( 'FS_METHOD', 'direct' );
+
+if ( defined( 'WP_CLI' ) ) {
+    $_SERVER['HTTP_HOST'] = '127.0.0.1';
+}
+
+define('WP_SITEURL', 'http://sports-web.local:8080/');
+define('WP_HOME', 'http://sports-web.local:8080/');
+
+// if (isset($_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO'])
+// && $_SERVER['HTTP_CLOUDFRONT_FORWARDED_PROTO'] === 'https') {
+//         $_SERVER['HTTPS'] = 'on';
+// }
+
+// define( 'AS3CF_SETTINGS', serialize( array(
+//     'provider' => 'aws',
+//     'access-key-id' => 'id',
+//     'secret-access-key' => 'key',
+// ) ) );
+//
+// define( 'WP_AUTO_UPDATE_CORE', 'minor' );
+
+/** Absolute path to the WordPress directory. */
+if ( ! defined( 'ABSPATH' ) ) {
+    define( 'ABSPATH', __DIR__ . '/' );
+}
+
+/** Sets up WordPress vars and included files. */
+require_once ABSPATH . 'wp-settings.php';
+
+if ( !defined( 'WP_CLI' ) ) {
+    // remove x-pingback HTTP header
+    add_filter("wp_headers", function($headers) {
+        unset($headers["X-Pingback"]);
+        return $headers;
+    });
+    // disable pingbacks
+    add_filter( "xmlrpc_methods", function( $methods ) {
+        unset( $methods["pingback.ping"] );
+        return $methods;
+    });
+}

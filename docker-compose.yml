@@ -1,0 +1,68 @@
+services:
+  wordpress:
+    image: bitnami/wordpress:6.8.0
+    container_name: wordpress
+    user: root
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    environment:
+      BITNAMI_DEBUG: true
+      WORDPRESS_DATA_TO_PERSIST: "wp-config.php wp-content/plugins wp-content/themes wp-content/cache"
+      WORDPRESS_ENABLE_HTTPS: false
+      WORDPRESS_DATABASE_USER: ${DB_USERNAME}
+      WORDPRESS_DATABASE_PASSWORD: ${DB_PASSWORD}
+      WORDPRESS_DATABASE_NAME: ${DB_DATABASE}
+      WORDPRESS_DATABASE_HOST: ${DB_HOST}
+      APP_ENV: ${APP_ENV}
+      WORDPRESS_RESET_DATA_PERMISSIONS: yes
+
+      WORDPRESS_ADMIN_USER: ${WORDPRESS_ADMIN_USER}
+      WORDPRESS_ADMIN_PASSWORD: ${WORDPRESS_ADMIN_PASSWORD}
+      WORDPRESS_ADMIN_EMAIL: ${WORDPRESS_ADMIN_EMAIL}
+      WORDPRESS_URL: ${WORDPRESS_URL}
+      WORDPRESS_SITE_TITLE: "${WORDPRESS_SITE_TITLE}"
+    volumes:
+      - ./wordpress/wp-content/plugins:/bitnami/wordpress/wp-content/plugins
+      - ./wordpress/wp-content/themes:/bitnami/wordpress/wp-content/themes
+      - ./wordpress/wp-content/cache:/bitnami/wordpress/wp-content/cache
+      - ./wordpress/scripts:/bitnami/wordpress/scripts
+      - ./wordpress/scripts/post-init.sh:/docker-entrypoint-init.d/post-init.sh
+      - ./wordpress/wp-config.php:/bitnami/wordpress/wp-config.php
+    depends_on:
+      - mariadb
+    networks:
+      - wp-network
+
+  mariadb:
+    image: mariadb:11.2
+    container_name: mariadb
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USERNAME}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./db_data:/var/lib/mysql
+    networks:
+      - wp-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: 'root'
+      PMA_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "8081:80"
+    networks:
+      - wp-network
+    depends_on:
+        - mariadb
+networks:
+  wp-network:
+    driver: bridge
